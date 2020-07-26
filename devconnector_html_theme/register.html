@@ -1,69 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Raleway"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
-    />
-
-    <link rel="stylesheet" href="css/style.css" />
-    <title>Welcome To The Developer Connector</title>
-  </head>
-  <body>
-    <nav class="navbar bg-dark">
-      <h1>
-        <a href="index.html"><i class="fas fa-code"></i> DevConnector</a>
-      </h1>
-      <ul>
-        <li><a href="profiles.html">Developers</a></li>
-        <li><a href="register.html">Register</a></li>
-        <li><a href="login.html">Login</a></li>
-      </ul>
-    </nav>
-    <section class="container">
-      <h1 class="large text-primary">Sign Up</h1>
-      <p class="lead"><i class="fas fa-user"></i> Create Your Account</p>
-      <form class="form" action="create-profile.html">
-        <div class="form-group">
-          <input type="text" placeholder="Name" name="name" required />
+<div class="modal fade" id="editTaskModal" tabindex="-1" role="dialog" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="editTaskModalLabel">
+                    {{modalTitle}}
+                </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div id="startDateContainer" class="modalContainerRow col-md-4 canEdit">
+                        <label for="startDate">
+                            <p class="inputSectionTitle">Start Date:</p>
+                        </label>
+                        <input class="form-control" type="text" datepicker="datepicker" data-ng-model="selectedStartDate" id="startDate" />
+                    </div>
+                    <div id="dueDateContainer" class="modalContainerRow col-md-4 canEdit">
+                        <label for="dueDate">
+                            <p class="inputSectionTitle">Due Date:</p>
+                        </label>
+                        <input class="form-control" type="text" datepicker="datepicker" data-ng-model="selectedDueDate" id="dueDate" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="selectTitle" class="modalContainerRow input-field col-md-6 canEdit">
+                        <label for="tasktitle">
+                            <p class="inputSectionTitle">Task Title: <i class="requiredFlag">*</i></p>
+                        </label>
+                        <input type="text" class="form-control" id="tasktitle" placeholder="Enter Task Title" data-ng-model="selectedTaskTitle" />
+                    </div>
+                    <div id="selectAssignedBy" class="modalContainerRow input-field col-lg-6 col-md-12">
+                        <label for="AssignedByDiv">
+                            <p class="inputSectionTitle">Assigned By : <i class="requiredFlag">*</i></p>
+                        </label>
+                        <div id="AssignedByDiv" spclientpeoplepicker="true"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="selectStatusNotes" class="modalContainerRow input-field col-md-12">
+                        <label for="taskStatusNotes">
+                            <p class="inputSectionTitle">Status Notes: </p>
+                        </label>
+                        <textarea rows="3" cols="200" class="form-control" id="taskStatusNotes" placeholder="Use this field to provide updates" data-ng-model="selectedTaskStatusNotes"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="selectPriority" class="modalContainerRow input-field col-md-4 canEdit">
+                        <label for="taskpriority">
+                            <p class="inputSectionTitle">Priority: </p>
+                        </label>
+                        <select class="form-control selectpicker" id="taskpriority" data-ng-model="selectedTaskPriority">
+                            <option data-ng-repeat="taskpriority in taskpriorities" value="{{taskpriority}}">{{taskpriority}}</option>
+                        </select>
+                    </div>
+                    <div id="selectRole" class="modalContainerRow input-field col-md-4 canEdit">
+                        <label for="taskrole">
+                            <p class="inputSectionTitle">Role: </p>
+                        </label>
+                        <select class="form-control selectpicker" id="taskrole" data-ng-model="selectedTaskRole">
+                            <option data-ng-repeat="taskrole in taskroles" value="{{taskrole}}">{{taskrole}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="modalContainerRow col-sm-12">
+                        <label for="AssignedToDiv">
+                            <p class="inputSectionTitle">Assigned To: </p>
+                        </label>
+                        <div id="AssignedToDiv" spclientpeoplepicker="true"></div>
+                    </div>
+                    <div class="modalContainerRow col-sm-12">
+                        <label for="SecondaryAssigneeDiv">
+                            <p class="inputSectionTitle">Secondary Assignee :</p>
+                        </label>
+                        <div id="SecondaryAssigneeDiv" spclientpeoplepicker="true"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="selectPercentComplete" class="modalContainerRow input-field col-md-4">
+                        <label for="tasktitle">
+                            <p class="inputSectionTitle">Percent Complete: </p>
+                        </label>
+                        <input type="number" min="0" max="100" class="form-control" id="taskpercentcomplete" placeholder="0 - 100" data-ng-model="selectedPercentComplete" />
+                    </div>
+                    <div id="selectStatus" class="modalContainerRow input-field col-md-4">
+                        <label for="taskstatus">
+                            <p class="inputSectionTitle">Status: </p>
+                        </label>
+                        <select class="form-control selectpicker" id="taskstatus" data-ng-model="selectedTaskStatus">
+                            <option data-ng-repeat="taskstatus in taskstatuses" value="{{taskstatus}}">{{taskstatus}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="selectFollowUpTask" class="modalContainerRow input-field col-md-12 canEdit">
+                        <label for="taskFollowUpTask">
+                            <p class="inputSectionTitle">Follow Up Action: </p>
+                        </label>
+                        <textarea rows="3" cols="200" class="form-control" id="taskFollowUpTask" placeholder="Enter Follow Up Action" data-ng-model="selectedTaskFollowUpTask"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-ng-hide="update" id="uploadBtn" data-ng-click="UpdateTask(taskedit)">
+                        Save
+                    </button>
+                    <button type="button" id="cancelBtn" data-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-          <input type="email" placeholder="Email Address" name="email" />
-          <small class="form-text"
-            >This site uses Gravatar so if you want a profile image, use a
-            Gravatar email</small
-          >
-        </div>
-        <div class="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            minLength="6"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            name="password2"
-            minLength="6"
-          />
-        </div>
-        <input type="submit" class="btn btn-primary" value="Register" />
-      </form>
-      <p class="my-1">
-        Already have an account? <a href="login.html">Sign In</a>
-      </p>
-    </section>
-  </body>
-</html>
+    </div>
+</div>
